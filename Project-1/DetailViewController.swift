@@ -19,6 +19,11 @@ class DetailViewController: UIViewController {
         
         title = "Imagen \(selectedIndex) of \(totalImages)"
         navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(sharedTapped)
+        )
         
         if let imageToLoad = selectedImage {
             ImageView.image = UIImage(named: imageToLoad)
@@ -34,6 +39,25 @@ class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.hidesBarsOnTap = false
+    }
+    
+    @objc func sharedTapped() {
+        
+        guard let image = ImageView.image?.jpegData(compressionQuality: 0.8)
+        else {
+            print("Error shared image")
+            return
+        }
+        
+        let vc = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: []
+        )
+        
+        // This line management the shared mode in Ipad
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        
+        present(vc, animated: true)
     }
 
 }
