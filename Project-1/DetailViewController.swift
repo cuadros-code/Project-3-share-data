@@ -50,7 +50,7 @@ class DetailViewController: UIViewController {
         }
         
         let vc = UIActivityViewController(
-            activityItems: [image],
+            activityItems: [image, selectedImage ?? "Image name not found"],
             applicationActivities: []
         )
         
